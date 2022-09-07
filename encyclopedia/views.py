@@ -1,5 +1,7 @@
+from pydoc import classname
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django import forms
 import markdown2
 
 from . import util
@@ -42,7 +44,30 @@ def search_results(request):
     })
     
 
+class NewEntryForm(forms.Form):
+    title = forms.CharField(label = 'Title')
+    content = forms.CharField(widget=forms.Textarea())
+
+
 def new(request):
-    return render(request, "encyclopedia/new.html")
-    
+    if request.method == "POST":
+        form = NewEntryForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            if title in util.list_entries():
+                error = "An entry with this title already exists!"
+                return render(request, "encyclopedia/new.html", {
+                    "error": error,
+                    "form": NewEntryForm()
+                })
+            else: 
+                util.save_entry(title, content)
+                return redirect("wiki:entry", entry_name=title)
+
+    else: 
+        return render(request, "encyclopedia/new.html", {
+            "form": NewEntryForm()
+    })
+
         
