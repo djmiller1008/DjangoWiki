@@ -1,4 +1,4 @@
-from pydoc import classname
+
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django import forms
@@ -70,4 +70,22 @@ def new(request):
             "form": NewEntryForm()
     })
 
-        
+
+class EditForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea())
+    
+def edit(request, entry_title):
+    if request.method == "POST":
+        form = EditForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            util.save_entry(entry_title, content)
+            return redirect('wiki:entry', entry_name=entry_title)
+    else:
+        content = util.get_entry(entry_title)
+        form = EditForm({'content': content})
+        return render(request, "encyclopedia/edit.html", {
+            "entry_title": entry_title,
+            "form": form
+        })
+
