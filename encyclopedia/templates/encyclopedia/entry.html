@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-  
+    
     {{ entry_content|safe }}
- 
-{% endblock %} 
+    <a href="{% url 'wiki:edit' entry_title %}">Edit</a>
+{% endblock %}
