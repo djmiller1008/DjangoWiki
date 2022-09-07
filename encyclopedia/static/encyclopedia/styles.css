@@ -3,6 +3,10 @@ body {
     background-color: white;
 }
 
+html {
+    overflow-y: scroll;
+}
+
 code {
     white-space: pre;
 }
@@ -13,8 +17,8 @@ h1 {
 }
 
 textarea {
-    height: 90vh;
-    width: 80%;
+    height: 50vh;
+  
 }
 
 .main {
@@ -35,4 +39,17 @@ textarea {
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+
+}
+
+.submit-button {
+    width: 6em;
+    margin: auto;
+    margin-top: 2rem;
 }
