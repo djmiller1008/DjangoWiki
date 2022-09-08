@@ -7,5 +7,8 @@
 {% block body %}
     
     {{ entry_content|safe }}
-    <a href="{% url 'wiki:edit' entry_title %}">Edit</a>
-{% endblock %}
+    {% if entry_content != 'Page Not Found' %}
+        <a href="{% url 'wiki:edit' entry_title %}">Edit</a>
+    {% endif %}
+    
+{% endblock %} 
