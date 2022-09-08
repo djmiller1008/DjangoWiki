@@ -1,8 +1,8 @@
-
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django import forms
 import markdown2
+import random
 
 from . import util
 
@@ -26,6 +26,7 @@ def entry(request, entry_name):
             "entry_content": markdown2.markdown(entry_content),
             "entry_title": entry_name
         })
+
 def search_results(request):
     query = request.POST['q'] #working now for exact typing. Need to check for capitalized
     possible_entries = []                   
@@ -89,3 +90,7 @@ def edit(request, entry_title):
             "form": form
         })
 
+def random_page(request):
+    entries = util.list_entries()
+    entry_name = random.choice(entries)
+    return redirect('wiki:entry', entry_name)
